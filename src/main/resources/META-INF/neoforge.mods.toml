@@ -36,10 +36,3 @@ type = "required"
 versionRange = "[0.0.6,)"
 ordering = "AFTER"
 side = "BOTH"
-
-[[dependencies.gsoxygenfix]]
-modId = "dragonsurvival"
-type = "required"
-versionRange = "[2.0,)"
-ordering = "NONE"
-side = "BOTH"

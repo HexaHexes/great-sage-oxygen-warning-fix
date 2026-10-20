@@ -7,8 +7,11 @@ A tiny mixin mod that fixes a false low-oxygen warning from the Great Sage abili
 Dragon Survival water-breathing species (sea dragon / sea dragonborn), whose
 "unlimited oxygen" air supply of −1 was being read as suffocation.
 
-**Dependencies (all required — load fails without them)**
-- Great Sage (`greatsage`), Dragon Survival (`dragonsurvival`).
+**Dependencies**
+- Required: Great Sage (`greatsage`).
+- Dragon Survival (`dragonsurvival`) is **not** a declared dependency — it's the mod
+  whose behavior this fixes, but the mixin targets Great Sage only and needs no DS
+  classes. Works with or without DS.
 
 **Test:** none — no GameTests. `./gradlew build` is the only gate. Client-side
 verification is the user's in-game check.

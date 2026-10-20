@@ -24,12 +24,15 @@ something the mod patches, it disables itself with a log error instead of crashi
 
 ## Dependencies
 
-All required — the mod won't load without them:
+The mod won't load without:
 
 | Mod | Why |
 |---|---|
 | [Great Sage](https://www.curseforge.com/minecraft/mc-mods/great-sage) | The ability being fixed |
-| [Dragon Survival](https://www.curseforge.com/minecraft/mc-mods/dragon-survival) | The water-breathing species this is for |
+
+[Dragon Survival](https://www.curseforge.com/minecraft/mc-mods/dragon-survival) is
+**not** required — it's the mod whose behavior this fixes, but the fix is written
+against Great Sage and works with or without Dragon Survival installed.
 
 Made for the **Tensura RPG** pack (Minecraft 1.21.1, NeoForge).
 
