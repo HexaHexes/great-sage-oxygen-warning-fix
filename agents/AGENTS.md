@@ -1,4 +1,4 @@
-﻿# Agent rules and conventions â€” Great Sage Oxygen Warning Fix
+# Agent rules and conventions â€” Great Sage Oxygen Warning Fix
 
 **Repo:** `HexaHexes/great-sage-oxygen-warning-fix` Â· **Local folder:** `gs-oxygen-fix` Â· **Mod ID:** `gsoxygenfix` Â· **Branch:** `main`
 **Platform:** Minecraft 1.21.1 / NeoForge 21.1.259 / JDK 21 Â· **Jar:** `build/libs/gsoxygenfix-<version>.jar`
