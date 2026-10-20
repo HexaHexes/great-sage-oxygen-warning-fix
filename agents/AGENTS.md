@@ -5,7 +5,7 @@
 
 A tiny mixin mod that fixes a false low-oxygen warning from the Great Sage ability for
 Dragon Survival water-breathing species (sea dragon / sea dragonborn), whose
-"unlimited oxygen" air supply of −1 was being read as suffocation.
+"unlimited oxygen" air supply of -1 was being read as suffocation.
 
 **Dependencies**
 - Required: Great Sage (`greatsage`).
@@ -18,7 +18,7 @@ verification is the user's in-game check.
 
 **Gotchas**
 - The mixin redirects `ServerPlayer.getAirSupply()` inside Great Sage's
-  `TipWatcher.survival`, reporting air ≤ 0 as `Integer.MAX_VALUE`.
+  `TipWatcher.survival`, reporting air <= 0 as `Integer.MAX_VALUE`.
 - Air 1–59 must still fire the warning normally — do not widen the redirect.
 - The mixin config is `"required": false` — a Great Sage update that changes
   `TipWatcher` disables the mixin with a log error instead of crashing. Keep it that way.
@@ -81,6 +81,7 @@ Before starting any new development in this repo:
 ## House style
 
 - **No icons** unless the user explicitly asks. Icons are being removed across all repos.
+- **No emojis, ever.** Prohibited in all code, docs, configs, and commit messages.
 - READMEs are **player-facing only**: pitch, mechanics in plain terms, in-game usage,
   required/optional dependencies, credits, license. No build internals, no class names.
 - All repos are **LGPL v2.1**, copyright Bitwise Madness. `NOTICE` / attribution files

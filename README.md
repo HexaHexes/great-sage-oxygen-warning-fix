@@ -7,7 +7,7 @@ Dragon Survival's water-breathing species.
 
 Great Sage shows a low-oxygen survival tip whenever your air drops below 60. Dragon
 Survival gives water-breathing species (sea dragon, sea dragonborn) an "unlimited
-oxygen" supply of **−1** — so those players were being told they were suffocating while
+oxygen" supply of **-1** — so those players were being told they were suffocating while
 perfectly safe underwater.
 
 ## What it does
