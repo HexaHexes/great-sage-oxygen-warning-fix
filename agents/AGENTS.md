@@ -1,23 +1,23 @@
-# Agent rules and conventions â€” Great Sage Oxygen Warning Fix
+# Agent rules and conventions — Great Sage Oxygen Warning Fix
 
-**Repo:** `HexaHexes/great-sage-oxygen-warning-fix` Â· **Local folder:** `gs-oxygen-fix` Â· **Mod ID:** `gsoxygenfix` Â· **Branch:** `main`
-**Platform:** Minecraft 1.21.1 / NeoForge 21.1.259 / JDK 21 Â· **Jar:** `build/libs/gsoxygenfix-<version>.jar`
+**Repo:** `HexaHexes/great-sage-oxygen-warning-fix` · **Local folder:** `gs-oxygen-fix` · **Mod ID:** `gsoxygenfix` · **Branch:** `main`
+**Platform:** Minecraft 1.21.1 / NeoForge 21.1.259 / JDK 21 · **Jar:** `build/libs/gsoxygenfix-<version>.jar`
 
 A tiny mixin mod that fixes a false low-oxygen warning from the Great Sage ability for
 Dragon Survival water-breathing species (sea dragon / sea dragonborn), whose
-"unlimited oxygen" air supply of âˆ’1 was being read as suffocation.
+"unlimited oxygen" air supply of −1 was being read as suffocation.
 
-**Dependencies (all required â€” load fails without them)**
+**Dependencies (all required — load fails without them)**
 - Great Sage (`greatsage`), Dragon Survival (`dragonsurvival`).
 
-**Test:** none â€” no GameTests. `./gradlew build` is the only gate. Client-side
+**Test:** none — no GameTests. `./gradlew build` is the only gate. Client-side
 verification is the user's in-game check.
 
 **Gotchas**
 - The mixin redirects `ServerPlayer.getAirSupply()` inside Great Sage's
-  `TipWatcher.survival`, reporting air â‰¤ 0 as `Integer.MAX_VALUE`.
-- Air 1â€“59 must still fire the warning normally â€” do not widen the redirect.
-- The mixin config is `"required": false` â€” a Great Sage update that changes
+  `TipWatcher.survival`, reporting air ≤ 0 as `Integer.MAX_VALUE`.
+- Air 1–59 must still fire the warning normally — do not widen the redirect.
+- The mixin config is `"required": false` — a Great Sage update that changes
   `TipWatcher` disables the mixin with a log error instead of crashing. Keep it that way.
 - This mod compiles against NeoForge only (no `libs/` jars); the mixin target is
   resolved at runtime.
@@ -28,8 +28,8 @@ verification is the user's in-game check.
 
 Before starting any new development in this repo:
 
-1. `git status` â€” confirm what uncommitted work exists. Never disturb or sweep it.
-2. `git pull --ff-only` â€” sync with the remote. A fast-forward is the normal case,
+1. `git status` — confirm what uncommitted work exists. Never disturb or sweep it.
+2. `git pull --ff-only` — sync with the remote. A fast-forward is the normal case,
    because we push straight to the shared branch.
 3. If the pull would **not** fast-forward (the branch has diverged), or if it would
    collide with local uncommitted work, **stop and ask** rather than merging, rebasing
@@ -38,17 +38,19 @@ Before starting any new development in this repo:
 ## Scope doctrine
 
 - **One mod + bundled datapack.** No KubeJS scripts.
-- **Data-driven over code** â€” prefer JSON/datapack content to Java when both work.
+- **Data-driven over code** — prefer JSON/datapack content to Java when both work.
 - **Public API only, no mixins** in the colony-gear-style addon mods. Sanctioned
   exception: `ds-tensura-fix` (tensura-dragon-skin-rebalance), a mixin fix mod by design.
 
 ## Verification
 
-- The in-repo GameTest run is the **only** CI gate. Never verify against a live
+- Verify with the in-repo GameTest run (`./gradlew runGametest`, or `runGameTestServer`).
+  Repos without GameTests verify with `./gradlew build`. Never verify against a live
   CurseForge instance.
 - Keep `expectedTests` in `build.gradle` in sync with the `@GameTest` methods.
 - **Client-render features cannot be proven headless.** The honest scope is
-  "build green + the user's in-game check" â€” say so rather than overclaiming.
+  "build green + the user's in-game check" - say so rather than overclaiming.
+
 
 ## Build environment
 
@@ -61,16 +63,16 @@ Before starting any new development in this repo:
 
 ## PowerShell quirks (this org is developed on Windows)
 
-- A `git push` "error" in PowerShell is usually stderr passthrough â€” success is the
+- A `git push` "error" in PowerShell is usually stderr passthrough — success is the
   `hash..hash  branch -> branch` line, not the absence of red text.
-- `New-Object Type(args)` breaks on arithmetic â€” use `::new()` or a parenthesized
+- `New-Object Type(args)` breaks on arithmetic — use `::new()` or a parenthesized
   argument.
 
 ## Git & release
 
 - Remote is SSH: `git@github.com:HexaHexes/<name>.git`.
 - Push only after tests are green **and** the user has given the go.
-- Never sweep the user's uncommitted work into a commit â€” commit only what is intended.
+- Never sweep the user's uncommitted work into a commit — commit only what is intended.
 - Commit subjects: concise, imperative.
 
 ## House style
@@ -84,15 +86,21 @@ Before starting any new development in this repo:
 
 ## CI & release model
 
-- `ci.yml` runs on pull requests: a build job and a GameTest job. Both assert a
-  non-zero result â€” a run that passes vacuously (0 tests) is a failure.
-- `release.yml` runs on every push to the default branch, re-runs the tests, and â€” only
-  when the version was bumped â€” tags and publishes a GitHub release with a cumulative
-  changelog. Alpha/nightly publishing is opt-in via the `ALPHA_RELEASES` repo variable
-  and is **off** by default.
+- `ci.yml` currently enforces the **version-bump guard only**: a beta or stable bump must
+  change the version file and nothing else; an `-alpha` bump may bundle work; a PR labelled
+  `breaking` forces the next clean bump to raise the major or minor version.
+- **Build and GameTest jobs are deferred.** Some dependencies (ManasCore's jar-in-jar
+  sub-modules, plus a few pack mods) are not resolvable from a clean checkout via
+  CurseMaven alone, so compiling in CI would fail every run. They land once a jar-fetch
+  step exists. Until then, run `./gradlew build` and the GameTest task locally before
+  pushing.
+- `release.yml` is **not yet enabled for the gradle mod repos** - it needs a CI-built jar
+  to attach. The datapack repo is the exception: its "build" is a zip, so it has a working
+  `release.yml` that tags and publishes on a version bump.
 - `version-bump.yml` opens an isolated version-bump PR (only the version file changes).
-  Beta/stable bumps must not carry other changes; `-alpha` bumps may bundle work.
 - CurseForge publishing (`curseforge.yml`) is **deferred** until a mod has a CurseForge
   listing and the `CURSEFORGE_PROJECT_ID` / `CURSEFORGE_API_KEY` secrets. Do not add it
   speculatively.
+- Where a release workflow exists, alpha/nightly publishing is opt-in via the
+  `ALPHA_RELEASES` repo variable and is **off** by default.
 
