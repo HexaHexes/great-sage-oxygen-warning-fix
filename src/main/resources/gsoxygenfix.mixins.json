@@ -1,5 +1,5 @@
 {
-  "required": false,
+  "required": true,
   "minVersion": "0.8",
   "package": "dev.kurok.mods.gsoxygenfix.mixin",
   "compatibilityLevel": "JAVA_21",

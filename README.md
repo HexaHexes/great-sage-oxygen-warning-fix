@@ -6,21 +6,27 @@ Dragon Survival's water-breathing species.
 ## The problem
 
 Great Sage shows a low-oxygen survival tip whenever your air drops below 60. Dragon
-Survival gives water-breathing species (sea dragon, sea dragonborn) an "unlimited
-oxygen" supply of **-1** — so those players were being told they were suffocating while
-perfectly safe underwater.
+Survival gives water-breathing species (sea dragon, sea dragonborn, and any addon
+species that can swim) unlimited oxygen while they are in their swim form — it marks
+that state with an "unlimited oxygen" air supply of **-1**, which Great Sage misreads
+as "about to drown" and warns about every 30 seconds.
 
 ## What it does
 
-- Air **at or below 0** (Dragon Survival's unlimited-oxygen marker) → **no warning**.
+- A water-breathing species in its swim form with unlimited oxygen → **no warning**,
+  because Dragon Survival is holding its breath for it.
+- Genuine drowning — air at or below 0 with no water-breathing ability → the warning
+  still fires.
 - Air **1–59** → the warning still fires **normally**.
 
-Nothing else about Great Sage is changed.
+The fix asks Dragon Survival itself whether oxygen is being withheld, so a real
+drowning player is never silenced. Nothing else about Great Sage is changed.
 
 ## Getting it in-game
 
-Install the jar and play — no configuration. If a future Great Sage update changes
-something the mod patches, it disables itself with a log error instead of crashing.
+Install the jar and play — no configuration. If a future Great Sage or Dragon Survival
+update changes what the mod patches, it fails to load with a clear error instead of
+quietly letting the false warning return.
 
 ## Dependencies
 
@@ -29,10 +35,7 @@ The mod won't load without:
 | Mod | Why |
 |---|---|
 | [Great Sage](https://www.curseforge.com/minecraft/mc-mods/great-sage) | The ability being fixed |
-
-[Dragon Survival](https://www.curseforge.com/minecraft/mc-mods/dragon-survival) is
-**not** required — it's the mod whose behavior this fixes, but the fix is written
-against Great Sage and works with or without Dragon Survival installed.
+| [Dragon Survival](https://www.curseforge.com/minecraft/mc-mods/dragon-survival) | Provides the oxygen state the fix reads |
 
 Made for the **Tensura RPG** pack (Minecraft 1.21.1, NeoForge).
 

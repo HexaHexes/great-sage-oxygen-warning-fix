@@ -8,9 +8,10 @@ version = "1.0.0"
 displayName = "Great Sage Oxygen Tip Fix"
 description = '''
 Stops the Great Sage low-oxygen warning (SANSO_KINSHOU) from firing
-while the air supply is 0 or negative - Dragon Survival's unlimited
-oxygen marker for water-breathing dragon species (sea dragon and sea
-dragonborn). Positive-but-low air still triggers the warning normally.
+while Dragon Survival is withholding oxygen for a water-breathing
+species in its swim form. Positive-but-low air, and genuine drowning
+in a player with no water-breathing ability, still trigger the
+warning normally.
 '''
 
 [[mixins]]
@@ -35,4 +36,11 @@ modId = "greatsage"
 type = "required"
 versionRange = "[0.0.6,)"
 ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.gsoxygenfix]]
+modId = "dragonsurvival"
+type = "required"
+versionRange = "[2.0.71,)"
+ordering = "NONE"
 side = "BOTH"

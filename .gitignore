@@ -12,3 +12,7 @@ out/
 run/
 run-data/
 runs/
+
+# Third-party jar staging (never commit)
+libs/
+testmods/

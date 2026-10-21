@@ -9,21 +9,28 @@ Dragon Survival water-breathing species (sea dragon / sea dragonborn), whose
 
 **Dependencies**
 - Required: Great Sage (`greatsage`).
-- Dragon Survival (`dragonsurvival`) is **not** a declared dependency — it's the mod
-  whose behavior this fixes, but the mixin targets Great Sage only and needs no DS
-  classes. Works with or without DS.
+- Required: Dragon Survival (`dragonsurvival`, `[2.0.71,)`). The redirect reads DS's
+  `SwimData` oxygen state, so DS is a hard compile **and** runtime dependency.
 
 **Test:** none — no GameTests. `./gradlew build` is the only gate. Client-side
 verification is the user's in-game check.
 
 **Gotchas**
 - The mixin redirects `ServerPlayer.getAirSupply()` inside Great Sage's
-  `TipWatcher.survival`, reporting air <= 0 as `Integer.MAX_VALUE`.
+  `TipWatcher.survival`. Air > 0 passes through untouched (a genuine low-air risk must
+  still warn). Air <= 0 is only reported safe when DS's own state says oxygen is being
+  withheld: `SwimData.getData(player).getMaxOxygen(player, eyeFluid) ==
+  SwimData.UNLIMITED_OXYGEN`. Do not fall back to a bare `air <= 0` test — that also
+  swallows real drowning (vanilla air supply passes through -1 on damage ticks).
 - Air 1–59 must still fire the warning normally — do not widen the redirect.
-- The mixin config is `"required": false` — a Great Sage update that changes
-  `TipWatcher` disables the mixin with a log error instead of crashing. Keep it that way.
-- This mod compiles against NeoForge only (no `libs/` jars); the mixin target is
-  resolved at runtime.
+- The mixin config is `"required": true` and the `@Redirect` carries `require = 1`:
+  a Great Sage update that changes `TipWatcher` now fails the load with a clear mixin
+  error instead of silently reintroducing the false warning. This is deliberate — the
+  mod's only purpose is this redirect and DS is a hard dependency, so silent
+  disablement is a hidden regression, not a graceful one.
+- DS classes come from the gitignored `libs/` folder (`compileOnly fileTree`); the
+  jar is staged locally from the instance's mods folder and never committed. The mixin
+  target itself is resolved at runtime.
 
 ---
 
