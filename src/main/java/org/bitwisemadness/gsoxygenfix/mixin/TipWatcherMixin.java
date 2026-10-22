@@ -1,4 +1,4 @@
-package dev.kurok.mods.gsoxygenfix.mixin;
+package org.bitwisemadness.gsoxygenfix.mixin;
 
 import by.dragonsurvivalteam.dragonsurvival.registry.attachments.SwimData;
 import net.minecraft.server.level.ServerPlayer;

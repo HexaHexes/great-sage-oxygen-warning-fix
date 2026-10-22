@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.kurok.mods.gsoxygenfix.mixin",
+  "package": "org.bitwisemadness.gsoxygenfix.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "TipWatcherMixin"
