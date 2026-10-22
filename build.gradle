@@ -24,9 +24,30 @@ neoForge {
     }
 }
 
+repositories {
+    maven {
+        name = 'CurseMaven'
+        url = 'https://cursemaven.com'
+    }
+    mavenCentral()
+}
+
 // Compile-only: Dragon Survival provides SwimData / UNLIMITED_OXYGEN, which the
-// redirect reads at compile time. The jar is staged in the gitignored libs/
-// folder (never committed) and is present at runtime as a required dependency.
+// redirect reads at compile time. Resolved through CurseMaven so a clean
+// checkout builds - never a gitignored libs/ folder. The jar is present at
+// runtime as a required dependency.
 dependencies {
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'curse.maven:dragon-survival-420799:8973485' // DragonSurvival-1.21.1-v2.0.71
+}
+
+// --- JUnit wiring (junit CI check) -------------------------------------------
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
 }
